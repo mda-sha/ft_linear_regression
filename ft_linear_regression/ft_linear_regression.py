@@ -40,5 +40,24 @@ class linearRegression:
     print(self.intercept, self.coef)
     animation = camera.animate()
     plt.show()
+  
+  def predict(self, x):
+    y = x * self.coef + self.intercept
+    print(y)
+    return y
+
+  def setLearningRate(self, newLR):
+    self.learningRate = newLR
+
+  def setIterations(self, newIterations):
+    self.iterations = newIterations
+
+  def getIntersept(self):
+    return self.intercept
+
+  def getCoef(self):
+    return self.coef
+
+  # def getAccuracy(self):
 
 
