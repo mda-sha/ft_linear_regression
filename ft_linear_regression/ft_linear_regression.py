@@ -1,20 +1,23 @@
 import pandas as pd
 import numpy as np
+from decimal import Decimal
 from matplotlib import pyplot as plt
 from celluloid import Camera
+from sklearn.preprocessing import MinMaxScaler
 
 class linearRegression:
   def __init__(self):
     self.intercept = 0
     self.coef = 0
-    self.learningRate = 0.1
-    # learningRate = 0.0000000001
+    self.learningRate = 1
     self.iterations = 1000
 
 
   def train(self, df):
-    X = df.km
-    Y = X * self.coef + self.intercept
+    # X = df.km
+    scaler = MinMaxScaler()
+    x_scaled = scaler.fit_transform(np.array(df.km).reshape(-1,1))
+    Y = x_scaled * self.coef + self.intercept
 
     fig = plt.figure(figsize=(10,4))
     camera = Camera(fig)
@@ -23,21 +26,22 @@ class linearRegression:
       theta0 = 0
       theta1 = 0
 
-      plt.plot(X, Y, color = "red")
+      plt.plot(x_scaled, Y, color = "red")
       plt.xlabel("mileage")
       plt.ylabel("price")
-      plt.scatter(df.km, df.price)
+      plt.scatter(x_scaled, df.price)
       camera.snap()
 
       for i in range(df.shape[0]):
-        dif = (X[i] * self.coef + self.intercept) - df.loc[i]["price"]
+        dif = (x_scaled[i] * self.coef + self.intercept) - df.loc[i]["price"]
         theta0 += dif
-        theta1 += dif * X[i]
+        theta1 += dif * x_scaled[i]
       self.intercept -= self.learningRate * theta0 / df.shape[0]
       self.coef -= self.learningRate * theta1 / df.shape[0]
-      Y = X * self.coef + self.intercept
+      Y = x_scaled * self.coef + self.intercept
 
-    print(self.intercept, self.coef)
+      print(self.intercept, self.coef)
+
     animation = camera.animate()
     plt.show()
   
