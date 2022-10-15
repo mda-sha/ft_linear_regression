@@ -11,9 +11,13 @@ class linearRegression:
     self.coef = 0
     self.learningRate = 1
     self.iterations = 1000
+    self.x_min = 0
+    self.x_max = 0
 
 
   def train(self, df):
+    self.x_min = min(df.km)
+    self.x_max = max(df.km)
     scaler = MinMaxScaler()
     x_scaled = scaler.fit_transform(np.array(df.km).reshape(-1,1))
     Y = x_scaled * self.coef + self.intercept
@@ -45,8 +49,9 @@ class linearRegression:
     plt.show()
   
   def predict(self, x):
+    if self.x_min != 0 and self.x_max != 0:
+      x = ((x - self.x_min) / (self.x_max - self.x_min))
     y = x * self.coef + self.intercept
-    print(y)
     return y
 
   def setLearningRate(self, newLR):
