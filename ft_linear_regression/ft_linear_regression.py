@@ -14,7 +14,6 @@ class linearRegression:
 
 
   def train(self, df):
-    # X = df.km
     scaler = MinMaxScaler()
     x_scaled = scaler.fit_transform(np.array(df.km).reshape(-1,1))
     Y = x_scaled * self.coef + self.intercept
