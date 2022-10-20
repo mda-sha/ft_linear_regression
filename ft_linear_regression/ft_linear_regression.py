@@ -4,6 +4,7 @@ from decimal import Decimal
 from matplotlib import pyplot as plt
 from celluloid import Camera
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import r2_score
 
 class linearRegression:
   def __init__(self):
@@ -44,6 +45,7 @@ class linearRegression:
       Y = x_scaled * self.coef + self.intercept
 
       print(self.intercept, self.coef)
+    # print("acccue"+str(r2_score(list(self.df.price),self.f))) исправить строку
 
     animation = camera.animate()
     plt.show()
@@ -66,6 +68,10 @@ class linearRegression:
   def getCoef(self):
     return self.coef
 
-  # def getAccuracy(self):
+  def getAccuracy(self):
+       pass
+    # return r2_score(self.df.price,self.f) не работает
+
+
 
 
