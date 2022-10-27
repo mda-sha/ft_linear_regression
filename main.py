@@ -1,14 +1,14 @@
 import pandas as pd
 from ft_linear_regression import ft_linear_regression
 
-lr = ft_linear_regression.linearRegression()
-# df = pd.DataFrame(data = {"km": [1, 2,3, 4], "price":[20, 25, 30, 35]})
 df = pd.read_csv("data.csv")
+lr = ft_linear_regression.linearRegression(df)
+# df = pd.DataFrame(data = {"km": [1, 2,3, 4], "price":[20, 25, 30, 35]})
 print("Hello to our linear regression test program. Here you can test these functions:\nto test predict function please enter 'predict'\nto test train function enter 'train'\nto get accuracy of model print 'get accuracy'\nAlso you can change learning rate and number of iterations")
 while True:
     inp = input().lower()
     if inp == "train":
-        lr.train(df)
+        lr.train()
     if inp == "predict":
         x = input("Please enter value of mileage you want to get prediction for ")
         try:
