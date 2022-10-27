@@ -1,24 +1,20 @@
 import pandas as pd
 import numpy as np
-from decimal import Decimal
 from matplotlib import pyplot as plt
 from celluloid import Camera
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score
 
 class linearRegression:
-  def __init__(self):
+  def __init__(self,df):
     self.intercept = 0
     self.coef = 0
     self.learningRate = 1
     self.iterations = 1000
-    self.x_min = 0
-    self.x_max = 0
+    self.df=df
 
 
-  def train(self, df):
-    self.x_min = min(df.km)
-    self.x_max = max(df.km)
+  def train(self):
     scaler = MinMaxScaler()
     x_scaled = scaler.fit_transform(np.array(df.km).reshape(-1,1))
     Y = x_scaled * self.coef + self.intercept
@@ -43,16 +39,15 @@ class linearRegression:
       self.intercept -= self.learningRate * theta0 / df.shape[0]
       self.coef -= self.learningRate * theta1 / df.shape[0]
       Y = x_scaled * self.coef + self.intercept
-
       print(self.intercept, self.coef)
-    # print("acccue"+str(r2_score(list(self.df.price),self.f))) исправить строку
-
     animation = camera.animate()
     plt.show()
   
   def predict(self, x):
-    if self.x_min != 0 and self.x_max != 0:
-      x = ((x - self.x_min) / (self.x_max - self.x_min))
+    x_min = min(self.df.km)
+    x_max = max(self.df.km)
+    if x_min != 0 and x_max != 0:
+      x = ((x - x_min) / (x_max - x_min))
     y = x * self.coef + self.intercept
     return y
 
@@ -69,8 +64,12 @@ class linearRegression:
     return self.coef
 
   def getAccuracy(self):
-       pass
-    # return r2_score(self.df.price,self.f) не работает
+    y_predict=[]
+    y_true=[]
+    for i in range(df.shape[0]):
+      y_predict.append(lr.predict(df.km[i]))
+      y_true.append(df.price[i])
+    return r2_score(y_true,y_predict) 
 
 
 
