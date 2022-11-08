@@ -1,3 +1,7 @@
+# import sys
+# from os.path import dirname
+# sys.path.append('/Users/rricardo/Library/Python/3.8/lib/python/site-packages')
+
 import pandas as pd
 from ft_linear_regression import ft_linear_regression
 
@@ -36,4 +40,6 @@ while True:
             print("Wrong value")
             continue
         lr.setIterations(it)
-        print(f'Iterations number is {it}')     
+        print(f'Iterations number is {it}')
+    if inp == "exit":
+        exit(0)

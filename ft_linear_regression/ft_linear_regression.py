@@ -6,7 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import r2_score
 
 class linearRegression:
-  def __init__(self,df):
+  def __init__(self, df):
     self.intercept = 0
     self.coef = 0
     self.learningRate = 1
@@ -16,7 +16,7 @@ class linearRegression:
 
   def train(self):
     scaler = MinMaxScaler()
-    x_scaled = scaler.fit_transform(np.array(df.km).reshape(-1,1))
+    x_scaled = scaler.fit_transform(np.array(self.df.km).reshape(-1,1))
     Y = x_scaled * self.coef + self.intercept
 
     fig = plt.figure(figsize=(10,4))
@@ -29,15 +29,15 @@ class linearRegression:
       plt.plot(x_scaled, Y, color = "red")
       plt.xlabel("mileage")
       plt.ylabel("price")
-      plt.scatter(x_scaled, df.price)
+      plt.scatter(x_scaled, self.df.price)
       camera.snap()
 
-      for i in range(df.shape[0]):
-        dif = (x_scaled[i] * self.coef + self.intercept) - df.loc[i]["price"]
+      for i in range(self.df.shape[0]):
+        dif = (x_scaled[i] * self.coef + self.intercept) - self.df.loc[i]["price"]
         theta0 += dif
         theta1 += dif * x_scaled[i]
-      self.intercept -= self.learningRate * theta0 / df.shape[0]
-      self.coef -= self.learningRate * theta1 / df.shape[0]
+      self.intercept -= self.learningRate * theta0 / self.df.shape[0]
+      self.coef -= self.learningRate * theta1 / self.df.shape[0]
       Y = x_scaled * self.coef + self.intercept
       print(self.intercept, self.coef)
     animation = camera.animate()
@@ -66,9 +66,9 @@ class linearRegression:
   def getAccuracy(self):
     y_predict=[]
     y_true=[]
-    for i in range(df.shape[0]):
-      y_predict.append(lr.predict(df.km[i]))
-      y_true.append(df.price[i])
+    for i in range(self.df.shape[0]):
+      y_predict.append(self.predict(self.df.km[i]))
+      y_true.append(self.df.price[i])
     return r2_score(y_true,y_predict) 
 
 
